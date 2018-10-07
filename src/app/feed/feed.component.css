@@ -1,0 +1,11 @@
+.liked{
+  color: red !important;
+}
+
+.retweeted{
+  color: red !important;
+}
+
+.margin{
+  margin: 2em;
+}

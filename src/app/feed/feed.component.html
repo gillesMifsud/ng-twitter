@@ -1,0 +1,60 @@
+<div *ngIf="loaded" class="margin">
+
+  <form class="ui form">
+    <div class="field">
+      <label>What's on your mind?</label>
+      <textarea [(ngModel)]="tweetText" name='body' placeholder="Penny for your thoughts" type="text"></textarea>
+    </div>
+
+    <button class="ui button primary" type="button" (click)="onNewTweet()">
+      Tweet
+    </button>
+  </form>
+
+  <!--Error div-->
+  <div *ngIf="errorText" class="ui negative message">
+    <i class="close icon"></i>
+    <div class="header">
+      {{ errorText }}
+    </div>
+  </div>
+
+  <div class="ui comments" *ngIf='tweets.length'>
+    <div class="comment" *ngFor='let tweet of tweets'>
+      <a class="avatar">
+        <img src="../../assets/avatars/{{tweet.avatar}}">
+      </a>
+      <div class="content">
+        <a class="author">{{tweet.author}}</a>
+        <div class="metadata">
+          <span class="date"> {{tweet.date | date:'hh:mm:ss dd/MM/yy' }}</span>
+        </div>
+        <div class="text">
+          {{tweet.body}}
+        </div>
+        <div class="actions">
+          <a class="reply">Reply</a>
+          <a class="like" (click)="onFavorite(tweet)">
+            <i class="like icon"
+               [ngClass]="{liked: tweet.hasFavorited(userService.getCurrentUser())}"></i>
+            {{tweet.favorites.length}} Favourites
+          </a>
+          <!--Retweet icon not working-->
+          <a class="share" (click)="onRetweet(tweet)">
+            <i class="share icon"
+               [ngClass]="{retweeted: tweet.hasRetweeted(userService.getCurrentUser())}"></i>
+            {{tweet.retweets.length}} Retweets
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf='!tweets.length'>
+    <h2>No tweets today.</h2>
+  </div>
+</div>
+
+<div class="margin" *ngIf='!loaded'>
+  <h2>Loading...</h2>
+</div>
